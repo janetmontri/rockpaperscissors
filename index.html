@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      //   HELPER FUNCTIONS
+
+      // Format user's input to capitalize the first letter and ensure the rest is lowercase.
+      function format(playerSelection) {
+        let lowercasePlayerSelection = playerSelection.toLowerCase();
+        return (
+          lowercasePlayerSelection.charAt(0).toUpperCase() +
+          lowercasePlayerSelection.slice(1)
+        );
+      }
+
+      //  Prompts player until they input a valid play.
+      function checkPlayerSelection(selection, arr) {
+        while (!arr.includes(selection)) {
+          correctedSelection = format(
+            prompt(
+              "Invalid choice.  Try again.  Choose rock, paper, or scissors."
+            )
+          );
+          return correctedSelection;
+        }
+      }
+
+      // Randomly choose amongst rock, paper, or scissors.
+      function generateRandomPlay(length) {
+        return Math.floor(Math.random() * length);
+      }
+
+      // Play round.
+      function playRound(validPlayerSelection, computerSelection, choiceArray) {
+        // If both newPlayerSelection and computerSelection are the same, it's a tie and they should play again.
+        if (validPlayerSelection === computerSelection) {
+          tiedPlayerSelection = checkPlayerSelection(
+            prompt("It's a tie!  Try again. Choose rock, paper, or scissors."),
+            choiceArray
+          );
+        }
+        // User wins if...
+        else if (
+          (validPlayerSelection === "Rock" &&
+            computerSelection === "Scissors") ||
+          (validPlayerSelection === "Scissors" &&
+            computerSelection === "Paper") ||
+          (validPlayerSelection === "Paper" && computerSelection === "Rock")
+        ) {
+          return (
+            "You win! " +
+            validPlayerSelection +
+            " beats " +
+            computerSelection +
+            "."
+          );
+        }
+        // User loses if...
+        else if (
+          (computerSelection === "Rock" &&
+            validPlayerSelection === "Scissors") ||
+          (computerSelection === "Scissors" &&
+            validPlayerSelection === "Paper") ||
+          (computerSelection === "Paper" && validPlayerSelection === "Rock")
+        ) {
+          return (
+            "You lose! " +
+            computerSelection +
+            " beats " +
+            validPlayerSelection +
+            "."
+          );
+        }
+      }
+
+      //   LOGIC OF GAME PLAY
+
+      function main() {
+        // First, prompt user to input either rock, paper, or scissors.
+        var playerSelection = prompt(
+          "Time to play!  Choose rock, paper, or scissors."
+        );
+
+        //   Define array of play choices.
+        var choiceArray = ["Rock", "Paper", "Scissors"];
+
+        //   Correctly format the user's input.
+        var formattedPlayerSelection = format(playerSelection);
+
+        //   Make sure user's input is a valid play.
+        var validPlayerSelection = checkPlayerSelection(
+          formattedPlayerSelection,
+          choiceArray
+        );
+
+        //   Print the user's valid play.
+        console.log("You played " + validPlayerSelection + ".");
+
+        //  Computer plays.
+        var computerSelection =
+          choiceArray[generateRandomPlay(choiceArray.length)];
+
+        //   Print the computer's play.
+        console.log("Computer played " + computerSelection + ".");
+
+        // Display result after each round.
+        console.log(
+          playRound(validPlayerSelection, computerSelection, choiceArray)
+        );
+      }
+
+      main();
+
+      // Play 5 rounds.  Display winner --best 3 out of 5 rounds-- at the end.
+    </script>
+  </body>
+</html>
