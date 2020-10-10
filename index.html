@@ -16,63 +16,42 @@
       }
 
       //  Alert player that their choice is invalid.
-      function checkValidity(selection, arr, aPrompt) {
-        while (!arr.includes(selection)) {
-          selection = promptPlayer(aPrompt);
+      function checkValidity(user, arr, aPrompt) {
+        while (!arr.includes(user)) {
+          user = promptPlayer(aPrompt);
         }
-        return selection;
+        return user;
       }
 
       // Randomly choose amongst rock, paper, or scissors.
-      function generateRandomPlay(length) {
+      function generateRandom(length) {
         return Math.floor(Math.random() * length);
       }
 
       //   Print user's play.
-      function printPlayerMove(player) {
-        console.log("You played " + player + ".");
+      function printUserMove(user) {
+        console.log("You played " + user + ".");
       }
 
       //   Print computer's play.
-      function printCompMove(computer) {
-        console.log("Computer played " + computer + ".");
+      function printCompMove(comp) {
+        console.log("Computer played " + comp + ".");
       }
-
-      // Test to check if validUserInput and computerSelection are the same. If true, declare a tie and prompt for new play.
-      //   function checkSame(player, computer, arr, aPrompt) {
-      //     if (player === computer) {
-      //       player = checkValidity(promptPlayer(aPrompt), arr);
-      //       return player;
-      //     }
-      //   }
 
       // Test to see if user wins round.
-      function checkWin(validUserInput, computerSelection) {
+      function didIWin(user, comp) {
         if (
-          (validUserInput === "Rock" && computerSelection === "Scissors") ||
-          (validUserInput === "Scissors" && computerSelection === "Paper") ||
-          (validUserInput === "Paper" && computerSelection === "Rock")
+          (user === "Rock" && comp === "Scissors") ||
+          (user === "Scissors" && comp === "Paper") ||
+          (user === "Paper" && comp === "Rock")
         ) {
-          console.log(
-            "You win! " + validUserInput + " beats " + computerSelection + "."
-          );
+          return true;
+        } else {
+          return false;
         }
       }
 
-      // Test to see if user loses round.
-      function checkLoss(validUserInput, computerSelection) {
-        if (
-          (computerSelection === "Rock" && validUserInput === "Scissors") ||
-          (computerSelection === "Scissors" && validUserInput === "Paper") ||
-          (computerSelection === "Paper" && validUserInput === "Rock")
-        ) {
-          console.log(
-            "You lose! " + computerSelection + " beats " + validUserInput + "."
-          );
-        }
-      }
-
-      //   LOGIC OF GAME PLAY
+      //   LOGIC FLOW OF GAME PLAY
 
       function main() {
         //   Define array of play choices.
@@ -80,54 +59,66 @@
 
         // Define prompts.
         var firstPrompt = "Choose rock, paper, or scissors.";
-
-        var secondPrompt =
+        var invalidPrompt =
           "Invalid choice.  Try again.  Choose rock, paper, or scissors.";
+
+        var userScore = 0;
+        var compScore = 0;
 
         let done = false;
 
-        // Play until you're out of the tie loop
+        // Loop this until result is not a tie
         while (!done) {
-          // First, prompt user to input either rock, paper, or scissors.
+          // Prompt user to input either rock, paper, or scissors
           var userInput = promptPlayer(firstPrompt);
 
-          //   Make sure user's input is a valid play.
+          //   Make sure user's input is a valid play
           var validUserInput = checkValidity(
             userInput,
             choiceArray,
-            secondPrompt
+            invalidPrompt
           );
 
-          //   Print the user's valid play.
-          printPlayerMove(validUserInput);
+          //   Print the user's valid play
+          printUserMove(validUserInput);
 
-          //  Computer plays.
-          var computerSelection =
-            choiceArray[generateRandomPlay(choiceArray.length)];
+          //  Computer plays
+          var compInput = choiceArray[generateRandom(choiceArray.length)];
 
-          //   Print the computer's play.
-          printCompMove(computerSelection);
+          //   Print the computer's play
+          printCompMove(compInput);
 
-          // Check for ties.
-          if (!(validUserInput === computerSelection)) {
+          // Check for ties
+          if (!(validUserInput === compInput)) {
             done = true;
           } else {
             console.log("It's a tie.  Play again.");
           }
         }
 
-        // Check if user won.
-        checkWin(validUserInput, computerSelection);
+        // Did user win or lose?
+        var win = didIWin(validUserInput, compInput);
 
-        // Check if user lost.
-        checkLoss(validUserInput, computerSelection);
+        // Calculate results
+        if (win === true) {
+          ++userScore;
+          console.log(
+            "You win! " + validUserInput + " beats " + compInput + "."
+          );
+        } else if (win === false) {
+          ++compScore;
+          console.log(
+            "You lose! " + compInput + " beats " + validUserInput + "."
+          );
+        }
+
+        // Display score
+        console.log("Score: " + userScore + " \- " + compScore);
       }
 
-      main();
-      main();
-      main();
-      main();
-      main();
+      for (i = 0; i < 5; i++) {
+        main();
+      }
 
       // Play 5 rounds.  Display winner --best 3 out of 5 rounds-- at the end.
     </script>
