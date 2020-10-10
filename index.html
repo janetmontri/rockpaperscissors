@@ -51,26 +51,23 @@
         }
       }
 
-      //   LOGIC FLOW OF GAME PLAY
+      //   GAME PLAY
 
       function main() {
         //   Define array of play choices.
-        var choiceArray = ["Rock", "Paper", "Scissors"];
+        let choiceArray = ["Rock", "Paper", "Scissors"];
 
         // Define prompts.
-        var firstPrompt = "Choose rock, paper, or scissors.";
-        var invalidPrompt =
+        let firstPrompt = "Choose rock, paper, or scissors.";
+        let invalidPrompt =
           "Invalid choice.  Try again.  Choose rock, paper, or scissors.";
-
-        var userScore = 0;
-        var compScore = 0;
 
         let done = false;
 
         // Loop this until result is not a tie
         while (!done) {
           // Prompt user to input either rock, paper, or scissors
-          var userInput = promptPlayer(firstPrompt);
+          let userInput = promptPlayer(firstPrompt);
 
           //   Make sure user's input is a valid play
           var validUserInput = checkValidity(
@@ -97,7 +94,7 @@
         }
 
         // Did user win or lose?
-        var win = didIWin(validUserInput, compInput);
+        let win = didIWin(validUserInput, compInput);
 
         // Calculate results
         if (win === true) {
@@ -111,13 +108,22 @@
             "You lose! " + compInput + " beats " + validUserInput + "."
           );
         }
-
-        // Display score
-        console.log("Score: " + userScore + " \- " + compScore);
       }
+
+      //   LOGIC FLOW
+
+      let userScore = 0;
+      let compScore = 0;
 
       for (i = 0; i < 5; i++) {
         main();
+        console.log("Score: " + userScore + " \- " + compScore);
+      }
+
+      if (userScore > compScore) {
+        console.log("You win, best out of 5 rounds!");
+      } else {
+        console.log("Better luck next time!");
       }
 
       // Play 5 rounds.  Display winner --best 3 out of 5 rounds-- at the end.
